@@ -1,15 +1,16 @@
 Summary:	User network stack library
 Summary(pl.UTF-8):	Biblioteka stosu sieciowego użytkownika
 Name:		libslirp
-%define	snap	20110720
+%define	snap	20120426
+%define	gitref	8c2da74c1385242f20799fec8c04f8378edc6550
 Version:	0.0.1
 Release:	0.%{snap}.1
 License:	BSD
 Group:		Libraries
-# git clone git://git.freedesktop.org/git/spice/slirp slirp
-Source0:	slirp-%{version}-%{snap}.tar.xz
-# Source0-md5:	a6718999a17207a32b0febf154efe222
-URL:		http://spice-space.org/
+#Source0Download: https://gitlab.freedesktop.org/spice/slirp/-/tags (but no releases)
+Source0:	https://gitlab.freedesktop.org/spice/slirp/-/archive/%{gitref}/slirp-%{snap}.tar.bz2
+# Source0-md5:	f2c080f2696d6e6bb082ebd278b6249d
+URL:		https://spice-space.org/
 BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake
 BuildRequires:	libtool
@@ -49,7 +50,7 @@ Static SLIRP library.
 Statyczna biblioteka SLIRP.
 
 %prep
-%setup -q -n slirp
+%setup -q -n slirp-%{gitref}
 
 %build
 %{__libtoolize}
