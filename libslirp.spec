@@ -16,6 +16,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
+Conflicts:	spice-slirp
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -32,6 +33,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki SLIRP
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	glib2-devel >= 2.0
+Conflicts:	spice-slirp-devel
 
 %description devel
 Header files for SLIRP library.
@@ -44,6 +46,7 @@ Summary:	Static SLIRP library
 Summary(pl.UTF-8):	Statyczna biblioteka SLIRP
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
+Conflicts:	spice-slirp-static
 
 %description static
 Static SLIRP library.
