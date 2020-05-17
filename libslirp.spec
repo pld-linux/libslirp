@@ -1,35 +1,37 @@
-Summary:	User network stack library
-Summary(pl.UTF-8):	Biblioteka stosu sieciowego użytkownika
+Summary:	TCP/IP emulator used by virtual machine hypervisors to provide virtual networking services
+Summary(pl.UTF-8):	Emulator TCP/IP używany przez hipernadzorców maszyn wirtualnych do udostępniania wirtualnych usług sieciowych
 Name:		libslirp
-%define	snap	20120426
-%define	gitref	8c2da74c1385242f20799fec8c04f8378edc6550
-Version:	0.0.1
-Release:	0.%{snap}.1
+Version:	4.3.0
+Release:	1
 License:	BSD
 Group:		Libraries
-#Source0Download: https://gitlab.freedesktop.org/spice/slirp/-/tags (but no releases)
-Source0:	https://gitlab.freedesktop.org/spice/slirp/-/archive/%{gitref}/slirp-%{snap}.tar.bz2
-# Source0-md5:	f2c080f2696d6e6bb082ebd278b6249d
-URL:		https://spice-space.org/
-BuildRequires:	autoconf >= 2.57
-BuildRequires:	automake
-BuildRequires:	libtool
+#Source0Download: https://gitlab.freedesktop.org/slirp/libslirp/-/releases (JS required)
+Source0:	https://elmarco.fedorapeople.org/%{name}-%{version}.tar.xz
+# Source0-md5:	dfcb5fdb8909f0bb865ace700e5362c6
+URL:		https://gitlab.freedesktop.org/slirp/libslirp
+BuildRequires:	glib2-devel >= 2.0
+BuildRequires:	meson >= 0.49
+BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
+BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-User network stack library.
+libslirp is a user-mode networking library used by virtual machines,
+containers or various tools.
 
 %description -l pl.UTF-8
-Biblioteka stosu sieciowego użytkownika.
+libslirp to biblioteka sieciowa przestrzeni użytkownika, używana przez
+maszyny wirtualne, kontenery lub różne narzędzia.
 
 %package devel
 Summary:	Header files for SLIRP library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki SLIRP
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	glib2-devel >= 2.0
 
 %description devel
 Header files for SLIRP library.
@@ -50,26 +52,17 @@ Static SLIRP library.
 Statyczna biblioteka SLIRP.
 
 %prep
-%setup -q -n slirp-%{gitref}
+%setup -q
 
 %build
-%{__libtoolize}
-%{__aclocal}
-%{__autoconf}
-%{__autoheader}
-%{__automake}
-%configure
+%meson build
 
-%{__make}
+%ninja_build -C build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
-
-# obsoleted by pkg-config
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/libslirp.la
+%ninja_install -C build
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -79,14 +72,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc TODO
+%doc CHANGELOG.md COPYRIGHT README.md
 %attr(755,root,root) %{_libdir}/libslirp.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libslirp.so.0
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libslirp.so
-%{_includedir}/libslirp
+%{_includedir}/slirp
 %{_pkgconfigdir}/slirp.pc
 
 %files static
