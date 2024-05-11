@@ -1,3 +1,7 @@
+#
+# Conditional build:
+%bcond_without	static_libs	# static library
+
 Summary:	TCP/IP emulator used by virtual machine hypervisors to provide virtual networking services
 Summary(pl.UTF-8):	Emulator TCP/IP używany przez hipernadzorców maszyn wirtualnych do udostępniania wirtualnych usług sieciowych
 Name:		libslirp
@@ -58,7 +62,8 @@ Statyczna biblioteka SLIRP.
 %setup -q
 
 %build
-%meson build
+%meson build \
+	%{!?with_static_libs:--default-library=shared}
 
 %ninja_build -C build
 
@@ -85,6 +90,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/slirp
 %{_pkgconfigdir}/slirp.pc
 
+%if %{with static_libs}
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libslirp.a
+%endif
