@@ -5,13 +5,13 @@
 Summary:	TCP/IP emulator used by virtual machine hypervisors to provide virtual networking services
 Summary(pl.UTF-8):	Emulator TCP/IP używany przez hipernadzorców maszyn wirtualnych do udostępniania wirtualnych usług sieciowych
 Name:		libslirp
-Version:	4.9.1
+Version:	4.9.3
 Release:	1
 License:	BSD
 Group:		Libraries
 #Source0Download: https://gitlab.freedesktop.org/slirp/libslirp/-/releases (JS required)
-Source0:	https://gitlab.freedesktop.org/-/project/2767/uploads/ed8eaeada090f91a640c8e8e01d704bc/%{name}-%{version}.tar.xz
-# Source0-md5:	f6ad0ef37cf0b2c455c4c8d4ef47f336
+Source0:	https://gitlab.freedesktop.org/-/project/2767/uploads/bdcbb727b502f93d312e631cc0980055/%{name}-%{version}.tar.xz
+# Source0-md5:	b8918718998184ffd01d6991bccf3d04
 URL:		https://gitlab.freedesktop.org/slirp/libslirp
 BuildRequires:	glib2-devel >= 2.0
 BuildRequires:	meson >= 0.60
